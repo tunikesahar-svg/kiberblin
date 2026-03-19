@@ -267,6 +267,43 @@
     }
     .shake { animation: shake 0.3s ease; }
 
+    /* Formula micro-animations */
+    .formula-slide-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .formula-slide-left.visible { opacity: 1; transform: translateX(0); }
+
+    .formula-slide-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .formula-slide-right.visible { opacity: 1; transform: translateX(0); }
+
+    .formula-fade {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .formula-fade.visible { opacity: 1; }
+
+    .formula-scale {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .formula-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* Form section gradient */
+    .form-gradient {
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(37,99,235,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 30%, rgba(124,58,237,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(220,38,38,0.04) 0%, transparent 50%),
+        #F0F4FF;
+    }
+
     /* Spinner */
     .spinner {
       width: 20px;
@@ -476,7 +513,7 @@
     }
   </style>
 
-  <section style="padding:80px 0 40px;background:#FAFAFA;">
+  <section style="padding:80px 0 40px;background:#FFFFFF;">
     <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
       <h2 class="section-title fade-up" style="text-align:center;margin-bottom:12px;">как это работает</h2>
       <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:15px;margin-bottom:48px;max-width:440px;margin-left:auto;margin-right:auto;">Два набора деталей от двух брендов — один готовый робот</p>
@@ -484,7 +521,7 @@
       <div class="formula-grid">
 
         <!-- Card 1: БлинБери -->
-        <div class="card card-hover fade-up formula-card" data-delay="150" style="padding:16px;text-align:center;">
+        <div class="card card-hover formula-card formula-slide-left" data-formula-delay="0" style="padding:16px;text-align:center;">
           <div class="formula-img-wrap" style="background:#FEF9EE;margin-bottom:12px;">
             <img src="https://i.ibb.co/35DthJfr/Generated-Image-March-18-2026-10-48-PM-Photoroom-2.png" alt="Детали от БлинБери">
           </div>
@@ -495,10 +532,10 @@
         </div>
 
         <!-- Plus -->
-        <div class="formula-sign fade-up" data-delay="200"><span>+</span></div>
+        <div class="formula-sign formula-fade" data-formula-delay="200"><span>+</span></div>
 
         <!-- Card 2: KIBERone -->
-        <div class="card card-hover fade-up formula-card" data-delay="250" style="padding:16px;text-align:center;">
+        <div class="card card-hover formula-card formula-slide-right" data-formula-delay="400" style="padding:16px;text-align:center;">
           <div class="formula-img-wrap" style="background:#EFF6FF;margin-bottom:12px;">
             <img src="https://i.ibb.co/B2g7zrDS/KIBERone-Photoroom-2.png" alt="Детали от KIBERone">
           </div>
@@ -509,10 +546,10 @@
         </div>
 
         <!-- Equals -->
-        <div class="formula-sign fade-up" data-delay="300"><span>=</span></div>
+        <div class="formula-sign formula-fade" data-formula-delay="600"><span>=</span></div>
 
         <!-- Card 3: Robot -->
-        <div class="card card-hover fade-up formula-card" data-delay="350" style="padding:16px;text-align:center;">
+        <div class="card card-hover formula-card formula-scale" data-formula-delay="800" style="padding:16px;text-align:center;">
           <div class="formula-img-wrap" style="background:linear-gradient(135deg,#FEF9EE,#EFF6FF);margin-bottom:12px;">
             <img src="https://i.ibb.co/vvsJh2Tm/3-2.png" alt="Собранный робот">
           </div>
@@ -529,7 +566,7 @@
 
 
   <!-- ========== HOW TO GET MISSING PART ========== -->
-  <section style="padding:96px 0;background:#FAFAFA;">
+  <section style="padding:96px 0;background:#F8F9FA;">
     <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
       <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">как получить недостающую деталь?</h2>
       <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:64px;max-width:560px;margin-left:auto;margin-right:auto;">Выбери деталь, которая у тебя уже есть, и узнай свой следующий шаг</p>
@@ -633,7 +670,7 @@
   </section>
 
   <!-- ========== FORM SECTION ========== -->
-  <section id="form" style="padding:96px 0;background:#FAFAFA;position:relative;">
+  <section id="form" class="form-gradient" style="padding:96px 0;position:relative;">
     <div style="max-width:560px;margin:0 auto;padding:0 24px;">
       <div class="card fade-up" style="padding:40px 32px;position:relative;overflow:hidden;">
         <!-- Subtle accent top border -->
@@ -697,7 +734,7 @@
   </section>
 
   <!-- ========== INSTRUCTIONS SECTION ========== -->
-  <section id="instructions" style="padding:96px 0;background:#FAFAFA;">
+  <section id="instructions" style="padding:96px 0;background:#FFFFFF;">
     <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
       <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">время собирать робота</h2>
       <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:48px;">Следуй пошаговой инструкции для идеального результата</p>
@@ -776,7 +813,7 @@
   </section>
 
   <!-- ========== VIDEO INSTRUCTIONS SECTION ========== -->
-  <section style="padding:96px 0;background:#FAFAFA;">
+  <section style="padding:96px 0;background:#F8F9FA;">
     <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
       <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">видеоинструкции по сборке</h2>
       <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:48px;">Смотри, как мы собираем робота шаг за шагом</p>
