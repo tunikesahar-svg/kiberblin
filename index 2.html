@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Квест: Кибер-Робот — БлинБери × KIBERone в Пензе</title>
+  <meta name="description" content="Собери подвижную 3D-модель робота из двух частей! Совместная акция БлинБери и KIBERone в Пензе.">
+  <meta property="og:title" content="Квест: Кибер-Робот — БлинБери × KIBERone">
+  <meta property="og:description" content="Собери подвижную 3D-модель робота из двух частей! Желтый скелет + Красная броня. Совместная акция в Пензе.">
+  <meta property="og:image" content="https://i.ibb.co/dw8SQfwV/3.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kiberblin.ru">
+  <link rel="icon" href="https://kiber-one.com/img/redesign/logo.jpg" type="image/jpeg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- IMask.js -->
+  <script src="https://unpkg.com/imask@7.6.0/dist/imask.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #111827;
+      background: #FAFAFA;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    p, li, label, span, a {
+      line-height: 1.6;
+    }
+
+    /* Hero title responsive */
+    .hero-title {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 900;
+      text-transform: lowercase;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 900;
+      text-transform: lowercase;
+    }
+
+    /* Floating robot animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+    .float-animation {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Card style */
+    .card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    /* CTA Button */
+    .btn-primary {
+      background: linear-gradient(135deg, #DC2626, #B91C1C);
+      color: #fff;
+      border-radius: 12px;
+      padding: 16px 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-transform: lowercase;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(220,38,38,0.35);
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+    }
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #111827;
+      border-radius: 12px;
+      padding: 14px 32px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: 2px solid rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.02);
+      transform: translateY(-1px);
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: #fff;
+      border-radius: 12px;
+      padding: 16px 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-transform: lowercase;
+    }
+    .btn-blue:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+    }
+
+    /* Header scroll state */
+    .header-scrolled {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    /* Fade in animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Segmented control tabs */
+    .tab-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+      background: transparent;
+      color: #6B7280;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    /* Step badge gradient */
+    .step-badge {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563EB, #7C3AED);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    /* Form inputs */
+    .form-input {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(0,0,0,0.08);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      background: #FFFFFF;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #2563EB;
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+    }
+    .form-input.error {
+      border-color: #DC2626;
+      box-shadow: 0 0 0 4px rgba(220,38,38,0.1);
+    }
+
+    /* Checkbox custom */
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border-radius: 6px;
+      border: 2px solid rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .custom-checkbox:checked {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      border-color: #2563EB;
+    }
+    .custom-checkbox:checked::after {
+      content: '';
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      position: absolute;
+      top: 2px;
+    }
+
+    /* Shake animation for validation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+    .shake { animation: shake 0.3s ease; }
+
+    /* Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-content {
+      background: #FFFFFF;
+      border-radius: 20px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 40px;
+      position: relative;
+    }
+    @media (max-width: 640px) {
+      .modal-content {
+        padding: 24px;
+        max-height: 90vh;
+        border-radius: 16px;
+      }
+    }
+
+    /* Mesh gradient hero */
+    .mesh-gradient {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(249,115,22,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(124,58,237,0.04) 0%, transparent 50%),
+        #FAFAFA;
+    }
+
+    /* Address badge */
+    .address-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      color: #374151;
+    }
+    .address-badge:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Instruction image container */
+    .instruction-img-container {
+      background: #F9FAFB;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.05);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .instruction-img-container img {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    /* Decorative shapes */
+    .deco-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header id="header" style="position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(250,250,250,0.8);transition:box-shadow 0.3s ease;">
+    <div style="max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:16px;">
+      <a href="https://пенза.блинбери.рф" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;">
+        <img src="https://пенза.блинбери.рф/static/media/logo.a82c754c2b2810f8a8db80bd3194be52.svg" alt="БлинБери" style="height:36px;width:auto;">
+      </a>
+      <span style="color:#D1D5DB;font-size:20px;font-weight:300;">|</span>
+      <a href="https://penza.kiber-one.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;">
+        <img src="https://kiber-one.com/img/redesign/logo.jpg" alt="KIBERone" style="height:36px;width:auto;border-radius:6px;">
+      </a>
+    </div>
+  </header>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="mesh-gradient" style="padding-top:96px;padding-bottom:80px;position:relative;overflow:hidden;">
+    <!-- Decorative shapes -->
+    <div class="deco-circle" style="width:400px;height:400px;background:#2563EB;top:-100px;right:-100px;"></div>
+    <div class="deco-circle" style="width:300px;height:300px;background:#F97316;bottom:-80px;left:-80px;"></div>
+    <div class="deco-circle" style="width:200px;height:200px;background:#7C3AED;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:48px;">
+        <!-- Text -->
+        <div style="flex:1;min-width:280px;" class="fade-up">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,0.08);padding:8px 16px;border-radius:100px;margin-bottom:24px;">
+            <i data-lucide="zap" style="width:16px;height:16px;color:#2563EB;"></i>
+            <span style="font-size:14px;font-weight:600;color:#2563EB;">Совместная акция в Пензе</span>
+          </div>
+          <h1 class="hero-title" style="margin-bottom:24px;color:#111827;">квест:<br>кибер-робот</h1>
+          <p style="font-size:18px;color:#4B5563;max-width:480px;margin-bottom:32px;">
+            Собери подвижную 3D-модель из двух частей! Желтый скелет + Красная броня.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="#form" class="btn-primary" style="text-decoration:none;">
+              <i data-lucide="gift" style="width:18px;height:18px;"></i>
+              записаться на урок
+            </a>
+            <a href="#instructions" class="btn-secondary" style="text-decoration:none;">
+              <i data-lucide="arrow-down" style="width:16px;height:16px;"></i>
+              к инструкции по сборке
+            </a>
+          </div>
+        </div>
+        <!-- Robot image -->
+        <div style="flex:1;min-width:260px;display:flex;justify-content:center;" class="fade-up" data-delay="100">
+          <img src="https://i.ibb.co/dw8SQfwV/3.png" alt="Кибер-Робот 3D модель" class="float-animation" style="max-width:360px;width:100%;height:auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.12));">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT WORKS — Visual Scheme ========== -->
+  <style>
+    .formula-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .formula-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .formula-card .formula-img-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 180px;
+      padding: 16px;
+    }
+    .formula-card .formula-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+    .formula-sign {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .formula-sign span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #9CA3AF;
+      line-height: 1;
+      user-select: none;
+    }
+    @media (max-width: 768px) {
+      .formula-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        max-width: 300px;
+      }
+      .formula-sign { padding: 6px 0; }
+      .formula-sign span { font-size: 28px; }
+      .formula-card .formula-img-wrap { min-height: 160px; padding: 12px; }
+    }
+  </style>
+
+  <section style="padding:80px 0 40px;background:#FAFAFA;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <h2 class="section-title fade-up" style="text-align:center;margin-bottom:12px;">как это работает</h2>
+      <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:15px;margin-bottom:48px;max-width:440px;margin-left:auto;margin-right:auto;">Два набора деталей от двух брендов — один готовый робот</p>
+
+      <div class="formula-grid">
+
+        <!-- Card 1: БлинБери -->
+        <div class="card card-hover fade-up formula-card" data-delay="150" style="padding:16px;text-align:center;">
+          <div class="formula-img-wrap" style="background:#FEF9EE;margin-bottom:12px;">
+            <img src="https://i.ibb.co/35DthJfr/Generated-Image-March-18-2026-10-48-PM-Photoroom-2.png" alt="Детали от БлинБери">
+          </div>
+          <div style="margin-top:auto;">
+            <p style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:14px;margin-bottom:6px;color:#111827;">детали от БлинБери</p>
+            <span style="display:inline-block;font-size:11px;font-weight:600;color:#D97706;background:rgba(245,158,11,0.1);padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.04em;">бесплатно</span>
+          </div>
+        </div>
+
+        <!-- Plus -->
+        <div class="formula-sign fade-up" data-delay="200"><span>+</span></div>
+
+        <!-- Card 2: KIBERone -->
+        <div class="card card-hover fade-up formula-card" data-delay="250" style="padding:16px;text-align:center;">
+          <div class="formula-img-wrap" style="background:#EFF6FF;margin-bottom:12px;">
+            <img src="https://i.ibb.co/B2g7zrDS/KIBERone-Photoroom-2.png" alt="Детали от KIBERone">
+          </div>
+          <div style="margin-top:auto;">
+            <p style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:14px;margin-bottom:6px;color:#111827;">детали от KIBERone</p>
+            <span style="display:inline-block;font-size:11px;font-weight:600;color:#2563EB;background:rgba(37,99,235,0.08);padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.04em;">бесплатно</span>
+          </div>
+        </div>
+
+        <!-- Equals -->
+        <div class="formula-sign fade-up" data-delay="300"><span>=</span></div>
+
+        <!-- Card 3: Robot -->
+        <div class="card card-hover fade-up formula-card" data-delay="350" style="padding:16px;text-align:center;">
+          <div class="formula-img-wrap" style="background:linear-gradient(135deg,#FEF9EE,#EFF6FF);margin-bottom:12px;">
+            <img src="https://i.ibb.co/vvsJh2Tm/3-2.png" alt="Собранный робот">
+          </div>
+          <div style="margin-top:auto;">
+            <p style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:14px;margin-bottom:6px;color:#111827;">ваш робот готов!</p>
+            <span style="display:inline-block;font-size:11px;font-weight:600;color:#059669;background:rgba(5,150,105,0.08);padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.04em;">результат</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ========== HOW TO GET MISSING PART ========== -->
+  <section style="padding:96px 0;background:#FAFAFA;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">как получить недостающую деталь?</h2>
+      <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:64px;max-width:560px;margin-left:auto;margin-right:auto;">Выбери деталь, которая у тебя уже есть, и узнай свой следующий шаг</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;">
+
+        <!-- Card 1: Has yellow skeleton → needs red armor -->
+        <div class="card card-hover fade-up" data-delay="150" style="padding:0;overflow:hidden;position:relative;">
+          <!-- Accent top stripe -->
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#F59E0B,#D97706);border-radius:20px 20px 0 0;"></div>
+
+          <div style="padding:32px;">
+            <!-- Badge: step 1 done -->
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.1);padding:6px 14px;border-radius:100px;margin-bottom:20px;">
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#D97706;"></i>
+              <span style="font-size:12px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:0.04em;">шаг 1 пройден</span>
+            </div>
+
+            <!-- Header block with warm background -->
+            <div style="background:rgba(245,158,11,0.06);border-radius:14px;padding:24px;margin-bottom:24px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;">
+                  <i data-lucide="puzzle" style="width:22px;height:22px;color:#FFF;"></i>
+                </div>
+                <h3 style="font-size:20px;font-weight:900;text-transform:lowercase;">желтый скелет у тебя?</h3>
+              </div>
+              <p style="font-size:15px;color:#4B5563;line-height:1.6;">Твоя миссия — добыть броню! Приходи на бесплатный ИТ-урок в KIBERone и получи красные детали за посещение занятия.</p>
+            </div>
+
+            <!-- Where to get -->
+            <div style="margin-bottom:24px;">
+              <p style="font-size:13px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">Где получить</p>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <a href="https://yandex.com/maps/-/CPFHjQP6" target="_blank" rel="noopener noreferrer" class="address-badge" style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.12);">
+                  <i data-lucide="map-pin" style="width:16px;height:16px;color:#D97706;min-width:16px;"></i>
+                  <span>ул. Лозицкой, 1А (рядом с ТРК «Коллаж»)</span>
+                </a>
+                <a href="https://yandex.com/maps/-/CPFHj012" target="_blank" rel="noopener noreferrer" class="address-badge" style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.12);">
+                  <i data-lucide="map-pin" style="width:16px;height:16px;color:#D97706;min-width:16px;"></i>
+                  <span>ул. Мира, 46к1</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="#form" class="btn-blue" style="text-decoration:none;width:100%;text-align:center;">
+              <i data-lucide="calendar" style="width:18px;height:18px;"></i>
+              записаться на урок
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 2: Has red armor → needs yellow skeleton -->
+        <div class="card card-hover fade-up" data-delay="250" style="padding:0;overflow:hidden;position:relative;">
+          <!-- Accent top stripe -->
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#F97316,#EA580C);border-radius:20px 20px 0 0;"></div>
+
+          <div style="padding:32px;">
+            <!-- Badge: step 1 done -->
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(249,115,22,0.1);padding:6px 14px;border-radius:100px;margin-bottom:20px;">
+              <i data-lucide="check-circle" style="width:14px;height:14px;color:#EA580C;"></i>
+              <span style="font-size:12px;font-weight:700;color:#EA580C;text-transform:uppercase;letter-spacing:0.04em;">шаг 1 пройден</span>
+            </div>
+
+            <!-- Header block with warm orange background -->
+            <div style="background:rgba(249,115,22,0.06);border-radius:14px;padding:24px;margin-bottom:24px;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#F97316,#EA580C);display:flex;align-items:center;justify-content:center;">
+                  <i data-lucide="shield" style="width:22px;height:22px;color:#FFF;"></i>
+                </div>
+                <h3 style="font-size:20px;font-weight:900;text-transform:lowercase;">красная броня у тебя?</h3>
+              </div>
+              <p style="font-size:15px;color:#4B5563;line-height:1.6;">Твоя миссия — добыть основу! Получи желтый скелет на кассе БлинБери совершенно бесплатно при любом заказе.</p>
+            </div>
+
+            <!-- Where to get -->
+            <div style="margin-bottom:24px;">
+              <p style="font-size:13px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">Где получить</p>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <a href="https://yandex.com/maps/-/CPFHn4On" target="_blank" rel="noopener noreferrer" class="address-badge" style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.12);">
+                  <i data-lucide="map-pin" style="width:16px;height:16px;color:#EA580C;min-width:16px;"></i>
+                  <span>ТРК «Коллаж», фуд-корт (пр-т Строителей, 1В)</span>
+                </a>
+                <a href="https://yandex.com/maps/-/CPFHj-ob" target="_blank" rel="noopener noreferrer" class="address-badge" style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.12);">
+                  <i data-lucide="map-pin" style="width:16px;height:16px;color:#EA580C;min-width:16px;"></i>
+                  <span>ул. Мира, 44а</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- CTA Button (ghost/outline) -->
+            <a href="https://пенза.блинбери.рф" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="text-decoration:none;width:100%;text-align:center;">
+              <i data-lucide="external-link" style="width:16px;height:16px;"></i>
+              меню БлинБери
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FORM SECTION ========== -->
+  <section id="form" style="padding:96px 0;background:#FAFAFA;position:relative;">
+    <div style="max-width:560px;margin:0 auto;padding:0 24px;">
+      <div class="card fade-up" style="padding:40px 32px;position:relative;overflow:hidden;">
+        <!-- Subtle accent top border -->
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2563EB,#7C3AED,#DC2626);border-radius:20px 20px 0 0;"></div>
+
+        <div style="text-align:center;margin-bottom:32px;">
+          <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(37,99,235,0.1),rgba(124,58,237,0.1));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+            <i data-lucide="book-open" style="width:28px;height:28px;color:#2563EB;"></i>
+          </div>
+          <h2 class="section-title" style="margin-bottom:12px;">запишись на бесплатный ИТ-урок</h2>
+          <p style="color:#6B7280;font-size:15px;">Оставь заявку, чтобы получить красную броню и попробовать себя в ИТ</p>
+        </div>
+
+        <!-- Form -->
+        <form id="leadForm" novalidate>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:14px;font-weight:600;color:#374151;margin-bottom:8px;">Ваше имя</label>
+            <div style="position:relative;">
+              <i data-lucide="user" style="width:18px;height:18px;color:#9CA3AF;position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;"></i>
+              <input type="text" id="nameInput" class="form-input" placeholder="Как вас зовут?" style="padding-left:44px;" required autocomplete="name">
+            </div>
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:14px;font-weight:600;color:#374151;margin-bottom:8px;">Номер телефона</label>
+            <div style="position:relative;">
+              <i data-lucide="phone" style="width:18px;height:18px;color:#9CA3AF;position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;"></i>
+              <input type="tel" id="phoneInput" class="form-input" placeholder="+7 (___) ___-__-__" style="padding-left:44px;" required autocomplete="tel">
+            </div>
+          </div>
+
+          <!-- Consent checkbox -->
+          <div style="margin-bottom:24px;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="consentCheckbox" class="custom-checkbox" style="margin-top:2px;">
+              <span style="font-size:13px;color:#6B7280;line-height:1.5;">
+                Я соглашаюсь с
+                <a href="javascript:void(0)" onclick="openModal('consentModal')" style="color:#2563EB;text-decoration:underline;text-underline-offset:2px;">Согласием на обработку персональных данных</a>
+                и
+                <a href="javascript:void(0)" onclick="openModal('privacyModal')" style="color:#2563EB;text-decoration:underline;text-underline-offset:2px;">Политикой конфиденциальности</a>
+              </span>
+            </label>
+            <p id="consentError" style="display:none;font-size:13px;color:#DC2626;margin-top:6px;margin-left:30px;">Необходимо дать согласие</p>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-primary" style="width:100%;font-size:16px;">
+            <i data-lucide="send" style="width:18px;height:18px;"></i>
+            <span id="btnText">получить красную броню</span>
+          </button>
+        </form>
+
+        <!-- Success message -->
+        <div id="successBlock" style="display:none;text-align:center;padding:32px 0;">
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+            <i data-lucide="check" style="width:32px;height:32px;color:#FFF;"></i>
+          </div>
+          <h3 style="font-size:22px;font-weight:900;margin-bottom:8px;text-transform:lowercase;">заявка отправлена</h3>
+          <p style="color:#6B7280;font-size:15px;">Мы скоро позвоним, чтобы подобрать удобное время для ИТ-урока</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== INSTRUCTIONS SECTION ========== -->
+  <section id="instructions" style="padding:96px 0;background:#FAFAFA;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">время собирать робота</h2>
+      <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:48px;">Следуй пошаговой инструкции для идеального результата</p>
+
+      <!-- Steps -->
+      <div style="display:flex;flex-direction:column;gap:32px;">
+
+        <!-- Step 0 -->
+        <div class="card fade-up" data-delay="150" style="padding:32px;">
+          <div style="display:flex;align-items:flex-start;gap:20px;">
+            <div class="step-badge">0</div>
+            <div style="flex:1;">
+              <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;text-transform:lowercase;">подготовка</h3>
+              <p style="color:#4B5563;font-size:15px;">Освободите стол, чтобы не потерять детали. На светлой поверхности их видно гораздо лучше! Разложите все перед собой: отсортируйте крупные элементы от мелких шарниров. Так процесс пойдет быстрее и приятнее!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="card fade-up" data-delay="200" style="padding:32px;">
+          <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+            <div class="step-badge">1</div>
+            <div style="flex:1;min-width:240px;">
+              <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;text-transform:lowercase;">сборка туловища</h3>
+              <p style="color:#4B5563;font-size:15px;">Начинаем с основы! Соединяем грудную клетку и таз. Внимание: некоторые мелкие детали очень похожи друг на друга. Внимательно сверяйтесь с картинкой, чтобы не перепутать их!</p>
+            </div>
+          </div>
+          <div class="instruction-img-container" style="margin-top:20px;">
+            <img src="https://i.ibb.co/zhnnJKKp/image.jpg" alt="Сборка туловища" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card fade-up" data-delay="250" style="padding:32px;">
+          <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+            <div class="step-badge">2</div>
+            <div style="flex:1;min-width:240px;">
+              <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;text-transform:lowercase;">сборка ног</h3>
+              <p style="color:#4B5563;font-size:15px;">Крепим бедра и голени к тазу.</p>
+            </div>
+          </div>
+          <div class="instruction-img-container" style="margin-top:20px;">
+            <img src="https://i.ibb.co/bMHNsKbh/image.jpg" alt="Сборка ног" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card fade-up" data-delay="300" style="padding:32px;">
+          <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+            <div class="step-badge">3</div>
+            <div style="flex:1;min-width:240px;">
+              <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;text-transform:lowercase;">сборка стоп</h3>
+              <p style="color:#4B5563;font-size:15px;">Добавляем стопы для идеального равновесия. Проверьте, чтобы шарниры двигались свободно.</p>
+            </div>
+          </div>
+          <div class="instruction-img-container" style="margin-top:20px;">
+            <img src="https://i.ibb.co/WvbMQh4S/2.jpg" alt="Сборка стоп" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="card fade-up" data-delay="350" style="padding:32px;">
+          <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;">
+            <div class="step-badge">4</div>
+            <div style="flex:1;min-width:240px;">
+              <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;text-transform:lowercase;">сборка рук</h3>
+              <p style="color:#4B5563;font-size:15px;">Финальный штрих! Собираем плечи, предплечья и кисти. Наш робот готов!</p>
+            </div>
+          </div>
+          <div class="instruction-img-container" style="margin-top:20px;">
+            <img src="https://i.ibb.co/XxBcSTdH/image.png" alt="Сборка рук" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VIDEO INSTRUCTIONS SECTION ========== -->
+  <section style="padding:96px 0;background:#FAFAFA;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <h2 class="section-title fade-up" style="text-align:center;margin-bottom:16px;">видеоинструкции по сборке</h2>
+      <p class="fade-up" data-delay="100" style="text-align:center;color:#6B7280;font-size:16px;margin-bottom:48px;">Смотри, как мы собираем робота шаг за шагом</p>
+
+      <!-- Main video -->
+      <div class="card fade-up" data-delay="150" style="padding:24px;margin-bottom:32px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#DC2626,#B91C1C);display:flex;align-items:center;justify-content:center;">
+            <i data-lucide="play" style="width:18px;height:18px;color:#FFF;"></i>
+          </div>
+          <h3 style="font-size:18px;font-weight:800;text-transform:lowercase;">короткая видеоинструкция</h3>
+        </div>
+        <div style="border-radius:12px;overflow:hidden;">
+          <iframe src="https://vk.com/video_ext.php?oid=-236796618&id=456239017&hd=2" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen style="aspect-ratio:16/9;border-radius:12px;display:block;"></iframe>
+        </div>
+      </div>
+
+      <!-- Detailed videos -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;">
+        <div class="card card-hover fade-up" data-delay="200" style="padding:24px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563EB,#1D4ED8);display:flex;align-items:center;justify-content:center;">
+              <i data-lucide="play" style="width:18px;height:18px;color:#FFF;"></i>
+            </div>
+            <h3 style="font-size:16px;font-weight:800;text-transform:lowercase;">подробная видеоинструкция (вариант 1)</h3>
+          </div>
+          <div style="border-radius:12px;overflow:hidden;">
+            <iframe src="https://vk.com/video_ext.php?oid=-236796618&id=456239018&hd=2" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen style="aspect-ratio:16/9;border-radius:12px;display:block;"></iframe>
+          </div>
+        </div>
+
+        <div class="card card-hover fade-up" data-delay="300" style="padding:24px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563EB,#1D4ED8);display:flex;align-items:center;justify-content:center;">
+              <i data-lucide="play" style="width:18px;height:18px;color:#FFF;"></i>
+            </div>
+            <h3 style="font-size:16px;font-weight:800;text-transform:lowercase;">подробная видеоинструкция (вариант 2)</h3>
+          </div>
+          <div style="border-radius:12px;overflow:hidden;">
+            <iframe src="https://vk.com/video_ext.php?oid=-236796618&id=456239019&hd=2" width="100%" height="100%" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen style="aspect-ratio:16/9;border-radius:12px;display:block;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT SECTION ========== -->
+  <section style="padding:96px 0;background:#FAFAFA;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;">
+        <div class="card fade-up" style="padding:32px;display:flex;flex-direction:column;align-items:flex-start;">
+          <img src="https://пенза.блинбери.рф/static/media/logo.a82c754c2b2810f8a8db80bd3194be52.svg" alt="БлинБери" style="height:32px;margin-bottom:20px;">
+          <p style="color:#4B5563;font-size:15px;flex:1;">БлинБери — невероятно вкусные блины. Сеть заведений с уникальными рецептами и теплой атмосферой для всей семьи.</p>
+          <a href="https://пенза.блинбери.рф" target="_blank" rel="noopener noreferrer" style="color:#F97316;font-weight:600;font-size:14px;margin-top:16px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
+            пенза.блинбери.рф
+            <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
+          </a>
+        </div>
+        <div class="card fade-up" data-delay="100" style="padding:32px;display:flex;flex-direction:column;align-items:flex-start;">
+          <img src="https://kiber-one.com/img/redesign/logo.jpg" alt="KIBERone" style="height:32px;border-radius:6px;margin-bottom:20px;">
+          <p style="color:#4B5563;font-size:15px;flex:1;">KIBERone — первая международная кибершкола будущего для нового ИТ-поколения. Программирование, дизайн и робототехника для детей.</p>
+          <a href="https://penza.kiber-one.com" target="_blank" rel="noopener noreferrer" style="color:#2563EB;font-weight:600;font-size:14px;margin-top:16px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
+            penza.kiber-one.com
+            <i data-lucide="arrow-up-right" style="width:14px;height:14px;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer style="background:#111827;color:rgba(255,255,255,0.7);padding:64px 0 32px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px;margin-bottom:48px;">
+        <!-- Column 1: Brand -->
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <img src="https://пенза.блинбери.рф/static/media/logo.a82c754c2b2810f8a8db80bd3194be52.svg" alt="БлинБери" style="height:28px;filter:brightness(0) invert(1);opacity:0.8;">
+            <span style="color:rgba(255,255,255,0.3);font-size:18px;">|</span>
+            <img src="https://kiber-one.com/img/redesign/logo.jpg" alt="KIBERone" style="height:28px;border-radius:4px;opacity:0.8;">
+          </div>
+          <p style="font-size:14px;line-height:1.6;">Совместная акция в Пензе.<br>Квест: Кибер-Робот.</p>
+        </div>
+
+        <!-- Column 2: Documents -->
+        <div>
+          <h4 style="color:#FFFFFF;font-size:14px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;">Документы</h4>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="javascript:void(0)" onclick="openModal('consentModal')" style="color:rgba(255,255,255,0.6);font-size:14px;text-decoration:none;transition:color 0.2s;">Согласие на обработку персональных данных</a>
+            <a href="javascript:void(0)" onclick="openModal('privacyModal')" style="color:rgba(255,255,255,0.6);font-size:14px;text-decoration:none;transition:color 0.2s;">Политика конфиденциальности</a>
+          </div>
+        </div>
+
+        <!-- Column 3: Legal -->
+        <div>
+          <h4 style="color:#FFFFFF;font-size:14px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;">Реквизиты</h4>
+          <div style="font-size:13px;line-height:1.8;">
+            <p>ИП Шарафиев Нияз Фаридович</p>
+            <p>ОГРНИП 323169000001272</p>
+            <p>ИНН 165924040380</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;text-align:center;">
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);">&copy; <span id="footerYear"></span> БлинБери &times; KIBERone. Совместная акция в Пензе.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== MODAL: CONSENT ========== -->
+  <div id="consentModal" class="modal-overlay" onclick="if(event.target===this)closeModal('consentModal')">
+    <div class="modal-content">
+      <button onclick="closeModal('consentModal')" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;padding:8px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='none'">
+        <i data-lucide="x" style="width:24px;height:24px;color:#6B7280;"></i>
+      </button>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;margin-bottom:24px;padding-right:40px;">Согласие на обработку персональных данных</h2>
+      <div style="font-size:14px;color:#374151;line-height:1.8;">
+        <p style="margin-bottom:16px;">Пользователь, оставляя заявку на сайте kiberblin.ru (далее — «Сайт»), принимает настоящее Согласие на обработку персональных данных (далее — «Согласие»).</p>
+        <p style="margin-bottom:16px;">Действуя свободно, своей волей и в своём интересе, а также подтверждая свою дееспособность, Пользователь даёт своё согласие ИП Шарафиев Нияз Фаридович (ОГРНИП 323169000001272, ИНН 165924040380), далее — «Оператор», на обработку своих персональных данных со следующими условиями:</p>
+        <p style="margin-bottom:8px;font-weight:600;">1.</p><p style="margin-bottom:16px;">Данное Согласие даётся на обработку персональных данных как без использования средств автоматизации, так и с их использованием.</p>
+        <p style="margin-bottom:8px;font-weight:600;">2.</p><p style="margin-bottom:16px;">Согласие даётся на обработку следующих персональных данных:<br>— персональные данные, не являющиеся специальными или биометрическими: имя, номер телефона.</p>
+        <p style="margin-bottom:8px;font-weight:600;">3.</p><p style="margin-bottom:16px;">Цель обработки персональных данных:<br>— обработка входящих запросов физических лиц с целью консультирования;<br>— аналитика действий физического лица на Сайте и функционирования Сайта;<br>— проведение рекламных и новостных рассылок.</p>
+        <p style="margin-bottom:8px;font-weight:600;">4.</p><p style="margin-bottom:16px;">Основанием для обработки персональных данных является:<br>— ст. 24 Конституции Российской Федерации;<br>— ст. 6 Федерального закона № 152-ФЗ «О персональных данных»;<br>— настоящее Согласие на обработку персональных данных.</p>
+        <p style="margin-bottom:8px;font-weight:600;">5.</p><p style="margin-bottom:16px;">В ходе обработки с персональными данными будут совершены следующие действия: сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передача (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение.</p>
+        <p style="margin-bottom:8px;font-weight:600;">6.</p><p style="margin-bottom:16px;">Персональные данные обрабатываются до момента отписки физического лица от рассылок. Также обработка персональных данных может быть прекращена по запросу субъекта персональных данных. Хранение персональных данных, зафиксированных на бумажных носителях, осуществляется согласно Федеральному закону № 125-ФЗ «Об архивном деле в Российской Федерации» и иным нормативно-правовым актам в области архивного дела и архивного хранения.</p>
+        <p style="margin-bottom:8px;font-weight:600;">7.</p><p style="margin-bottom:16px;">Согласие может быть отозвано субъектом персональных данных или его представителем путём направления письменного заявления Оператору по адресу электронной почты или через форму обратной связи на сайте kiberblin.ru.</p>
+        <p style="margin-bottom:8px;font-weight:600;">8.</p><p style="margin-bottom:16px;">В случае отзыва субъектом персональных данных или его представителем согласия на обработку персональных данных Оператор вправе продолжить обработку персональных данных без согласия субъекта персональных данных при наличии оснований, указанных в пунктах 2–11 части 1 статьи 6, части 2 статьи 10 и части 2 статьи 11 Федерального закона № 152-ФЗ «О персональных данных» от 27.07.2006 г.</p>
+        <p style="margin-bottom:8px;font-weight:600;">9.</p><p>Настоящее Согласие действует всё время до момента прекращения обработки персональных данных, указанных в п. 6 данного Согласия.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL: PRIVACY POLICY ========== -->
+  <div id="privacyModal" class="modal-overlay" onclick="if(event.target===this)closeModal('privacyModal')">
+    <div class="modal-content">
+      <button onclick="closeModal('privacyModal')" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;padding:8px;border-radius:8px;transition:background 0.2s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='none'">
+        <i data-lucide="x" style="width:24px;height:24px;color:#6B7280;"></i>
+      </button>
+      <h2 style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:900;margin-bottom:24px;padding-right:40px;">Политика конфиденциальности</h2>
+      <div style="font-size:14px;color:#374151;line-height:1.8;">
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">1. Общие положения</h3>
+        <p style="margin-bottom:8px;">1.1. Настоящая Политика конфиденциальности (далее — «Политика») действует в отношении всей информации, которую сайт kiberblin.ru (далее — «Сайт»), может получить о Пользователе во время использования Сайта.</p>
+        <p style="margin-bottom:8px;">1.2. Использование Сайта Пользователем означает согласие с настоящей Политикой и условиями обработки персональных данных Пользователя.</p>
+        <p style="margin-bottom:8px;">1.3. В случае несогласия с условиями Политики Пользователь должен прекратить использование Сайта.</p>
+        <p style="margin-bottom:8px;">1.4. Настоящая Политика применяется только к сайту kiberblin.ru. Сайт не контролирует и не несёт ответственности за сайты третьих лиц, на которые Пользователь может перейти по ссылкам, доступным на Сайте.</p>
+        <p style="margin-bottom:16px;">1.5. Администрация Сайта не проверяет достоверность персональных данных, предоставляемых Пользователем.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">2. Предмет политики конфиденциальности</h3>
+        <p style="margin-bottom:8px;">2.1. Настоящая Политика устанавливает обязательства Администрации Сайта по неразглашению и обеспечению режима защиты конфиденциальности персональных данных, которые Пользователь предоставляет при заполнении форм на Сайте.</p>
+        <p style="margin-bottom:8px;">2.2. Персональные данные, разрешённые к обработке в рамках настоящей Политики, предоставляются Пользователем путём заполнения форм на Сайте и включают в себя следующую информацию:<br>— имя Пользователя;<br>— контактный номер телефона Пользователя.</p>
+        <p style="margin-bottom:16px;">2.3. Сайт защищает данные, которые автоматически передаются в процессе просмотра страниц Сайта:<br>— IP-адрес;<br>— информация из cookies;<br>— информация о браузере;<br>— время доступа;<br>— реферер (адрес предыдущей страницы).</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">3. Цели сбора персональной информации пользователя</h3>
+        <p style="margin-bottom:16px;">3.1. Персональные данные Пользователя Администрация Сайта может использовать в целях:<br>— идентификации Пользователя для оформления заявки;<br>— установления обратной связи с Пользователем, включая направление уведомлений, запросов, касающихся использования Сайта, оказания услуг, обработки запросов и заявок;<br>— определения местоположения Пользователя для обеспечения безопасности и предотвращения мошенничества;<br>— подтверждения достоверности и полноты персональных данных, предоставленных Пользователем;<br>— уведомления Пользователя о новостях и акциях;<br>— предоставления эффективной клиентской и технической поддержки при возникновении проблем, связанных с использованием Сайта;<br>— осуществления рекламной деятельности с согласия Пользователя.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">4. Способы и сроки обработки персональной информации</h3>
+        <p style="margin-bottom:8px;">4.1. Обработка персональных данных Пользователя осуществляется без ограничения срока любым законным способом, в том числе в информационных системах персональных данных с использованием средств автоматизации или без использования таких средств.</p>
+        <p style="margin-bottom:8px;">4.2. Пользователь соглашается с тем, что Администрация Сайта вправе передавать персональные данные третьим лицам исключительно в целях выполнения обязательств перед Пользователем.</p>
+        <p style="margin-bottom:8px;">4.3. Персональные данные Пользователя могут быть переданы уполномоченным органам государственной власти Российской Федерации только по основаниям и в порядке, установленным законодательством Российской Федерации.</p>
+        <p style="margin-bottom:8px;">4.4. При утрате или разглашении персональных данных Администрация Сайта информирует Пользователя об утрате или разглашении персональных данных.</p>
+        <p style="margin-bottom:8px;">4.5. Администрация Сайта принимает необходимые организационные и технические меры для защиты персональной информации Пользователя от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий третьих лиц.</p>
+        <p style="margin-bottom:16px;">4.6. Администрация Сайта совместно с Пользователем принимает все необходимые меры по предотвращению убытков или иных отрицательных последствий, вызванных утратой или разглашением персональных данных Пользователя.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">5. Обязательства сторон</h3>
+        <p style="margin-bottom:8px;">5.1. Пользователь обязан:<br>— предоставить информацию о персональных данных, необходимую для пользования Сайтом;<br>— обновить, дополнить предоставленную информацию о персональных данных в случае её изменения.</p>
+        <p style="margin-bottom:16px;">5.2. Администрация Сайта обязана:<br>— использовать полученную информацию исключительно для целей, указанных в п. 3 настоящей Политики;<br>— обеспечить хранение конфиденциальной информации в тайне, не разглашать без предварительного письменного разрешения Пользователя, а также не осуществлять продажу, обмен, опубликование либо разглашение иными возможными способами переданных персональных данных Пользователя, за исключением п. 4.2 и 4.3 настоящей Политики;<br>— принимать меры предосторожности для защиты конфиденциальности персональных данных Пользователя согласно порядку, обычно используемому для защиты такого рода информации в существующем деловом обороте;<br>— осуществить блокирование персональных данных, относящихся к соответствующему Пользователю, с момента обращения или запроса Пользователя, его законного представителя либо уполномоченного органа по защите прав субъектов персональных данных на период проверки в случае выявления недостоверных персональных данных или неправомерных действий.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">6. Ответственность сторон</h3>
+        <p style="margin-bottom:8px;">6.1. Администрация Сайта, не исполнившая свои обязательства, несёт ответственность за убытки, понесённые Пользователем в связи с неправомерным использованием персональных данных, в соответствии с законодательством Российской Федерации.</p>
+        <p style="margin-bottom:16px;">6.2. В случае утраты или разглашения конфиденциальной информации Администрация Сайта не несёт ответственности, если данная конфиденциальная информация:<br>— стала публичным достоянием до её утраты или разглашения;<br>— была получена от третьей стороны до момента её получения Администрацией Сайта;<br>— была разглашена с согласия Пользователя.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">7. Разрешение споров</h3>
+        <p style="margin-bottom:8px;">7.1. До обращения в суд с иском по спорам, возникающим из отношений между Пользователем и Администрацией Сайта, обязательным является предъявление претензии (письменного предложения о добровольном урегулировании спора).</p>
+        <p style="margin-bottom:8px;">7.2. Получатель претензии в течение 30 (тридцати) календарных дней со дня получения претензии письменно уведомляет заявителя претензии о результатах рассмотрения претензии.</p>
+        <p style="margin-bottom:8px;">7.3. При недостижении соглашения спор будет передан на рассмотрение в судебный орган в соответствии с действующим законодательством Российской Федерации.</p>
+        <p style="margin-bottom:16px;">7.4. К настоящей Политике и отношениям между Пользователем и Администрацией Сайта применяется действующее законодательство Российской Федерации.</p>
+
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;margin:24px 0 12px;">8. Дополнительные условия</h3>
+        <p style="margin-bottom:8px;">8.1. Администрация Сайта вправе вносить изменения в настоящую Политику без согласия Пользователя.</p>
+        <p style="margin-bottom:8px;">8.2. Новая Политика вступает в силу с момента её размещения на Сайте, если иное не предусмотрено новой редакцией Политики.</p>
+        <p style="margin-bottom:8px;">8.3. Все предложения или вопросы по настоящей Политике следует направлять через сайт kiberblin.ru.</p>
+        <p style="margin-bottom:16px;">8.4. Действующая Политика размещена на сайте kiberblin.ru.</p>
+
+        <div style="margin-top:24px;padding:20px;background:#F9FAFB;border-radius:12px;">
+          <p style="font-weight:600;margin-bottom:4px;">Реквизиты:</p>
+          <p>ИП Шарафиев Нияз Фаридович<br>ОГРНИП 323169000001272<br>ИНН 165924040380<br>Адрес: г. Казань, ул. Тэцевская, 4А</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    // --- Initialize Lucide Icons ---
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.lucide) lucide.createIcons();
+    });
+
+    // --- Dynamic footer year ---
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // --- Header scroll effect ---
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 10) {
+        header.classList.add('header-scrolled');
+      } else {
+        header.classList.remove('header-scrolled');
+      }
+    }, { passive: true });
+
+    // --- Fade-in-up animations with Intersection Observer ---
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          const delay = parseInt(entry.target.getAttribute('data-delay') || '0');
+          setTimeout(function() {
+            entry.target.classList.add('visible');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeElements.forEach(function(el) { observer.observe(el); });
+
+    // --- Phone mask with IMask.js ---
+    const phoneInput = document.getElementById('phoneInput');
+    const phoneMask = IMask(phoneInput, {
+      mask: '+{7} (000) 000-00-00',
+      lazy: true,
+      placeholderChar: '_'
+    });
+
+    // --- Modal open/close ---
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // Re-render Lucide icons inside modal
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+          m.classList.remove('open');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+
+    // --- Form submission ---
+    const BOT_TOKEN = '8398800847:AAENWNJRoAYkEmXsjLmIrxfSwYddSYBtuHQ';
+    const CHAT_ID = '401196025';
+
+    const form = document.getElementById('leadForm');
+    const nameInput = document.getElementById('nameInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const successBlock = document.getElementById('successBlock');
+    const consentCheckbox = document.getElementById('consentCheckbox');
+    const consentError = document.getElementById('consentError');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Reset error states
+      nameInput.classList.remove('error', 'shake');
+      phoneInput.classList.remove('error', 'shake');
+      consentError.style.display = 'none';
+      let hasError = false;
+
+      // Validate name
+      const name = nameInput.value.trim();
+      if (!name) {
+        nameInput.classList.add('error', 'shake');
+        hasError = true;
+      }
+
+      // Validate phone (11 digits)
+      const phoneDigits = phoneMask.unmaskedValue;
+      if (phoneDigits.length < 11) {
+        phoneInput.classList.add('error', 'shake');
+        hasError = true;
+      }
+
+      // Validate consent
+      if (!consentCheckbox.checked) {
+        consentError.style.display = 'block';
+        hasError = true;
+      }
+
+      if (hasError) {
+        // Remove shake after animation
+        setTimeout(function() {
+          nameInput.classList.remove('shake');
+          phoneInput.classList.remove('shake');
+        }, 300);
+        return;
+      }
+
+      // Disable button, show loading
+      submitBtn.disabled = true;
+      btnText.innerHTML = '<span class="spinner"></span> отправляем...';
+
+      const phone = phoneMask.value;
+      const text = `Новая заявка на Кибер-Робота!%0AИмя: ${encodeURIComponent(name)}%0AТелефон: ${encodeURIComponent(phone)}`;
+      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${text}`;
+
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          form.style.display = 'none';
+          successBlock.style.display = 'block';
+          // Re-render icons in success block
+          if (window.lucide) lucide.createIcons();
+        } else {
+          throw new Error('Telegram API error');
+        }
+      } catch (err) {
+        alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.');
+        submitBtn.disabled = false;
+        btnText.textContent = 'получить красную броню';
+      }
+    });
+
+    // Remove error state on input focus
+    nameInput.addEventListener('focus', function() { this.classList.remove('error'); });
+    phoneInput.addEventListener('focus', function() { this.classList.remove('error'); });
+    consentCheckbox.addEventListener('change', function() { consentError.style.display = 'none'; });
+  </script>
+</body>
+</html>
